@@ -1,0 +1,318 @@
+---
+title: "Sleep Apnea"
+subtitle: "A Case Series"
+author: "R. Vasconcelos"
+date: today
+date-format: long
+format:
+  html:
+    smooth-scroll: true
+    self-contained: true
+    toc: true
+    toc-location: left
+theme: cosmo
+smooth-scroll: true
+project:
+  output-dir: outputs/documents
+---
+
+# Setup
+
+## Housekeeping
+
+```{r setup}
+# This ensures we have the default settings for all the R chunks.
+
+knitr::opts_chunk$set(
+  collapse    = TRUE,
+  warning     = FALSE, # Whether to display warnings
+  message     = FALSE, # Whether to display messages
+  echo        = TRUE,  # In this case we want to see the code 
+  eval        = TRUE   # Whether to evaluate the code and include its results
+  )
+
+# Clearing all objects, including hidden objects.
+
+rm(list = ls(all.names = TRUE))
+
+# Setting a seed is important every time R needs to do random calculations, ensuring the results remain constant.
+
+set.seed(123)
+
+
+```
+
+## Install and load libraries
+
+```{r libraries}
+# Every time you run a new session, libraries must be loaded.
+
+# Package list
+required_packages <- c(
+                       "tidyverse",   
+                       "dplyr",
+                       "broom",
+                       "ggplot2",
+                       "readxl",
+                       "kableExtra",
+                       "patchwork",
+                       "table1",
+                       "skimr"
+                       )      
+ 
+for (pkg in required_packages) {
+
+  # Install packages if not already present
+  if (!pkg %in% rownames(installed.packages())) {
+    install.packages(pkg)
+  }
+  
+  # Load packages to this current session 
+  library(pkg, character.only = TRUE)
+}
+
+```
+
+## Load data and clean names
+
+```{r load data}
+# First, lets load the dataset - in this case, an Excel file.
+hypoxia <- read_excel("datasets/hypoxia.xlsx")
+
+# Second, we'll clean the variable names, getting rid of capitals and spaces.
+hypoxia <- janitor::clean_names(hypoxia) 
+
+# Third, we'll extract the variables we need and save them to a new smaller dataset.
+hypoxia_lite <- hypoxia %>%
+  select(age,
+         female,
+         race,
+         bmi,
+         sleeptime,
+         min_sao2,
+         ahi,
+         smoking,
+         diabetes,
+         hyper,
+         cad,
+         cpap,
+         type_surg,
+         duration_of_surg
+         )
+
+# Lastly, we'll assing the labels to categorical variable.
+hypoxia_lite <- hypoxia_lite %>%
+  mutate(
+    type_surg = case_when(
+      type_surg == 1 ~ "Gastroenterostomy",
+      type_surg == 2 ~ "Gastric restrictive procedure",
+      type_surg == 3 ~ "Gastroplasty",
+      type_surg == 4 ~ "Removal of gastric restrictive device"),
+    race = case_when(
+      race == 1 ~ "African American",
+      race == 2 ~ "Caucasian",
+      race == 3 ~ "Other"
+      )
+  )
+
+
+```
+
+\newpage
+
+# Image
+
+![Image 1 - Hospital. Photo by Silas Camargo Silão from Pixabay](images/hospital-gf6a9be5ea_1280.jpg){fig-alt="photo of hospital beds" fig-align="center"}
+
+\newpage
+
+# Equation
+
+$$ BMI = \frac {Weight} {Height^2} $$
+
+\newpage
+
+# Inline
+
+```{r inline}
+# We'll create a summary dataset, grouped by surgery type.
+sum_hypoxia <- hypoxia_lite %>% # new table with summary statistics
+  group_by(type_surg) %>% # group results by surgery type
+  summarise(n_surgeries=dplyr::n(), # number of surgeries
+            mean_age=mean(age, na.rm = TRUE), # mean patient age
+            percent_female=mean(female, na.rm = TRUE), # female patient percentage
+            mean_bmi=mean(bmi, na.rm = TRUE), # mean patient BMI
+            mean_sleeptime=mean(sleeptime, na.rm = TRUE), # mean sleep time with SaO2 < 90%
+            percent_smoking=mean(smoking, na.rm = TRUE), # percentage of patients who smoke
+            percent_diabetes=mean(diabetes, na.rm = TRUE), # percentage of diabetic patients
+            percent_hyper=mean(hyper, na.rm = TRUE), # percentage of patients with hypertension
+            mean_duration=mean(duration_of_surg, na.rm = TRUE), # mean surgery time
+  )
+
+# This creates variables with the n() of each surgery type via a for() loop.
+list_types <- c("Gastroenterostomy","Gastric restrictive procedure","Gastroplasty","Removal of gastric restrictive device")
+
+var_names <- paste0("a", 1:4)
+
+for (i in seq_along(var_names)){
+  assign(var_names[[i]], sum_hypoxia %>%
+           filter(type_surg==list_types[[i]]) %>%
+           pull(n_surgeries))
+}
+
+# We'll be able to call those variables inline with `r a1`, `r a2`, and so forth.
+
+```
+
+During the study period, `r a1` gastroenterostomies, `r a2` gastric restrictive procedures, `r a3` gastroplasties, and `r a4` removals of gastric restrictive devices were performed.
+
+\newpage
+
+# Tables
+
+## Table 1
+
+```{r table 1}
+# This creates a table 1, useful for scientific articles.
+t1 <- table1(~ age +
+         factor(female) + 
+         factor(race) +
+         factor(diabetes) |
+         type_surg,
+       data=hypoxia_lite,
+       footnote = "Source: TSHS datasets",
+       caption = "Descriptive variables by type of surgery"
+       )
+
+t1
+```
+
+## Skim
+
+```{r table 2}
+# For a deeper look, we can use the skim() function from the "skimr" package.
+t2 <- skim(select(hypoxia_lite, -race, -type_surg)) %>%
+  kbl(digits = 3,
+      caption = "Data summary") %>%
+  kable_classic(html_font = "Calibri") %>%
+  footnote(
+    general_title = "",
+    general = "Source: TSHS datasets"
+    ) 
+
+t2
+
+```
+
+\newpage
+
+# Graphs
+
+## Density plot
+
+```{r plot 1}
+# A density plot of duration of surgery by surgery type
+p1 <- ggplot(data=hypoxia_lite, 
+       aes(x=duration_of_surg,
+           colour=type_surg)) +
+  geom_density() +
+  labs(title = "Duration of surgeries by surgery type",
+       y = "Density",
+       x = "Duration of surgery (h)",
+       caption = "Source: TSHS datasets",
+       color = "Type of Surgery") +
+  xlim(0,10) +
+  theme_minimal()
+
+p1
+
+```
+
+## Boxplot
+
+```{r plot 2}
+p2 <- ggplot() +
+  geom_boxplot(data = hypoxia_lite,
+               aes(x = type_surg,
+                   y = bmi),
+               colour = "black") +
+  geom_hline(yintercept = 40, 
+             colour = "red") + 
+  # geom_rect(aes(xmin = 0,
+  #               ymin= 40,
+  #               xmax= 5,
+  #               ymax = Inf),
+  #           fill = "red",
+  #           alpha = 0.5) +
+  annotate("text",
+           x = 2.5,
+           y = 41,
+           label = "Morbidly obese",
+           size = 2,
+           colour = "red") +
+  labs(title = "Body mass index of patients in each type of surgery",
+         y = "Body mass index",
+         x = "Type of surgery", 
+         caption = "Source: TSHS datasets") +
+  theme_minimal()
+
+ p2
+```
+
+## Jitter plot
+
+```{r plot 3}
+p3 <- ggplot(hypoxia_lite, 
+       aes(x=age, 
+           y=min_sao2, 
+           colour=as.factor(smoking))
+       )+ 
+  geom_point(alpha=0.5
+             ) +
+  geom_smooth(method = lm,
+              se= FALSE
+             ) +
+  scale_colour_discrete(labels=c('Non smokers', 'Smokers')) +
+  labs(title = expression(Age~and~Minimum~Nocturnal~SaO[2]),
+       subtitle = "By Smoking Status",
+       y = expression(Minimum~Nocturnal~SaO[2]),
+       x = "Age", 
+       caption = "Source: TSHS datasets",
+       colour="") +
+  theme_minimal() +
+  theme(legend.position="bottom")
+
+p3
+```
+
+# Regression model
+
+```{r model 1}
+model1 <- lm(bmi ~ as.factor(type_surg) + age + as.factor(female), 
+             data= hypoxia_lite)
+
+model1_tidy <- tidy(model1, conf.int = TRUE) %>%
+  select(term, estimate, p.value, conf.low, conf.high) %>%
+  mutate(
+    term = case_when(
+      term =="(Intercept)" ~ "Intercept",
+      term =="age" ~ "Age",
+      term =="as.factor(female)1" ~ "Female",
+      term =="as.factor(type_surg)Gastroenterostomy" ~ "Gastroenterostomy",
+      term =="as.factor(type_surg)Gastroplasty" ~ "Gastroplasty",
+      term =="as.factor(type_surg)Removal of gastric restrictive device" ~ "Removal of gastric restrictive device")
+  )
+
+t3 <- model1_tidy %>%
+  kbl(digits = 3,
+      caption = "Linear model") %>%
+  kable_classic(full_width = F, 
+                html_font = "Calibri") %>%
+  footnote(
+    general_title = "",
+    general = "Source: TSHS datasets"
+    ) 
+
+t3
+
+```

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="lib/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="lib/kePrint-0.0.1/kePrint.js"></script>
+<link href="lib/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+</head>
+<body>
+<table class=" lightable-classic" style="font-family: Calibri; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>Data summary</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> skim_type </th>
+   <th style="text-align:left;"> skim_variable </th>
+   <th style="text-align:right;"> n_missing </th>
+   <th style="text-align:right;"> complete_rate </th>
+   <th style="text-align:right;"> numeric.mean </th>
+   <th style="text-align:right;"> numeric.sd </th>
+   <th style="text-align:right;"> numeric.p0 </th>
+   <th style="text-align:right;"> numeric.p25 </th>
+   <th style="text-align:right;"> numeric.p50 </th>
+   <th style="text-align:right;"> numeric.p75 </th>
+   <th style="text-align:right;"> numeric.p100 </th>
+   <th style="text-align:left;"> numeric.hist </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 47.293 </td>
+   <td style="text-align:right;"> 11.117 </td>
+   <td style="text-align:right;"> 16.4 </td>
+   <td style="text-align:right;"> 39.6 </td>
+   <td style="text-align:right;"> 48.2 </td>
+   <td style="text-align:right;"> 54.7 </td>
+   <td style="text-align:right;"> 73.8 </td>
+   <td style="text-align:left;"> ▁▅▇▇▂ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.715 </td>
+   <td style="text-align:right;"> 0.452 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▃▁▁▁▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> bmi </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 46.749 </td>
+   <td style="text-align:right;"> 7.774 </td>
+   <td style="text-align:right;"> 23.4 </td>
+   <td style="text-align:right;"> 41.5 </td>
+   <td style="text-align:right;"> 46.0 </td>
+   <td style="text-align:right;"> 51.7 </td>
+   <td style="text-align:right;"> 71.7 </td>
+   <td style="text-align:left;"> ▁▆▇▃▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> sleeptime </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 18.705 </td>
+   <td style="text-align:right;"> 23.727 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 8.1 </td>
+   <td style="text-align:right;"> 26.9 </td>
+   <td style="text-align:right;"> 99.6 </td>
+   <td style="text-align:left;"> ▇▂▁▁▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> min_sao2 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 78.715 </td>
+   <td style="text-align:right;"> 10.618 </td>
+   <td style="text-align:right;"> 28.0 </td>
+   <td style="text-align:right;"> 74.0 </td>
+   <td style="text-align:right;"> 82.0 </td>
+   <td style="text-align:right;"> 86.0 </td>
+   <td style="text-align:right;"> 95.0 </td>
+   <td style="text-align:left;"> ▁▁▂▅▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> ahi </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.989 </td>
+   <td style="text-align:right;"> 2.871 </td>
+   <td style="text-align:right;"> 1.080 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 3.0 </td>
+   <td style="text-align:right;"> 4.0 </td>
+   <td style="text-align:right;"> 4.0 </td>
+   <td style="text-align:left;"> ▃▅▁▅▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> smoking </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.502 </td>
+   <td style="text-align:right;"> 0.501 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▇▁▁▁▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.345 </td>
+   <td style="text-align:right;"> 0.476 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▇▁▁▁▅ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> hyper </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.708 </td>
+   <td style="text-align:right;"> 0.455 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▃▁▁▁▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> cad </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.093 </td>
+   <td style="text-align:right;"> 0.290 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▇▁▁▁▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> cpap </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 0.633 </td>
+   <td style="text-align:right;"> 0.483 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:left;"> ▅▁▁▁▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> duration_of_surg </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 4.315 </td>
+   <td style="text-align:right;"> 1.116 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 3.7 </td>
+   <td style="text-align:right;"> 4.2 </td>
+   <td style="text-align:right;"> 4.9 </td>
+   <td style="text-align:right;"> 7.9 </td>
+   <td style="text-align:left;"> ▂▇▆▂▁ </td>
+  </tr>
+</tbody>
+<tfoot><tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Source: TSHS datasets</td></tr></tfoot>
+</table> <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}})</script><script async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

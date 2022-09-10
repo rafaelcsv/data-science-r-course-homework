@@ -1,0 +1,16 @@
+project:
+  title: "hipoxia"
+  output-dir: outputs/documents
+
+toc: true
+number-sections: true
+
+format:
+  html:
+    smooth-scroll: true
+    self-contained: true
+    toc: true
+    toc-location: left
+docx:
+  template: template1.docx
+
